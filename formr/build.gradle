@@ -64,7 +64,7 @@ afterEvaluate { project ->
                 }
 
                 pom.groupId = 'com.giift'
-                pom.artifactId = 'formr-vieony'
+                pom.artifactId = 'formr'
                 pom.version = sdkVersion
             }
         }
