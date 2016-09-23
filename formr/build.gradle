@@ -51,6 +51,13 @@ dependencies {
 
 }
 
+def getRepositoryUsername() {
+    return System.properties['username']
+}
+
+def getRepositoryPassword() {
+    return System.properties['password']
+}
 /**
  * method to upload the .aar file of giift-sdk to the maven repository
  */
@@ -59,12 +66,12 @@ afterEvaluate { project ->
         repositories {
             mavenDeployer {
                 configuration = configurations.deployerJars
-                repository(url: 'git:https://giiftsdk@bitbucket.org/giiftalldev/giiftsdk-maven.git?master#') {
-                    authentication(userName: 'giiftsdk', password: 'giift_sdk_2015')
+                repository(url: REPO_URL) {
+                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
                 }
 
-                pom.groupId = 'com.giift'
-                pom.artifactId = 'formr'
+                pom.groupId = GROUP
+                pom.artifactId = POM_ARTIFACT_ID
                 pom.version = sdkVersion
             }
         }
