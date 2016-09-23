@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- FormR -->
+    <style name="FormR"/>
+
+    <!-- ButtonChoice -->
+    <style name="FormR.ButtonChoice" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@drawable/button_choice_text</item>
+        <item name="android:textSize">@dimen/button_choice</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <!-- DropDown -->
+    <style name="FormR.Spinner">
+        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
+    </style>
+
+    <style name="FormR.Text.Hint" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

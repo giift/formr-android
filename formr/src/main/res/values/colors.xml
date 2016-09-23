@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="major_red">#d43f3a</color>
+    <color name="major_orange">#ff8800</color>
+    <color name="major_blue">#005691</color>
+    <color name="white">#fff</color>
+    <color name="grey_text">#666</color>
+
+    <!-- Button Choice -->
+    <color name="button_choice_background">#DDDDDD</color>
+    <color name="button_choice_text">#999999</color>
+    <color name="button_choice_highlight">@color/white</color>
+
+    <color name="text_color_error">@color/major_red</color>
+    <color name="text_color_normal">@color/grey_text</color>
+
+</resources>

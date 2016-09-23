@@ -1,0 +1,72 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+def sdkVersion;
+
+def getVersionNameTimestamp() {
+    return new Date().format('yyyy.MM.ddHHmmss')
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName getVersionNameTimestamp()
+        sdkVersion = versionName
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+configurations {
+    deployerJars
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.google.android.gms:play-services-vision:9.4.0'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'io.card:android-sdk:5.1.2'
+    deployerJars 'net.trajano.wagon:wagon-git:2.0.1'
+
+}
+
+/**
+ * method to upload the .aar file of giift-sdk to the maven repository
+ */
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                configuration = configurations.deployerJars
+                repository(url: 'git:https://giiftsdk@bitbucket.org/giiftalldev/giiftsdk-maven.git?master#') {
+                    authentication(userName: 'giiftsdk', password: 'giift_sdk_2015')
+                }
+
+                pom.groupId = 'com.giift'
+                pom.artifactId = 'formr-vieony'
+                pom.version = sdkVersion
+            }
+        }
+    }
+}

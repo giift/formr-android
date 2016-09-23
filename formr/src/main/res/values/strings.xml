@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">formR</string>
+    <string name="app">@string/app_name</string>
+
+    <string name="error_field_required">Field is mandatory</string>
+    <string name="invalid_card_number">This is an invalid card number</string>
+    <string name="error_invalid_email">This is not a valid e-mail</string>
+    <string name="select_option">Select at least 1 option</string>
+
+    <!--BarcodeCaptureActivity -->
+    <string name="activity_barcode">Read Barcode</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot scan barcode without the camera permission.</string>
+    <string name="low_storage_error">Due to low device storage it is impossible to scan barcode.</string>
+    <string name="zoom">Pinch/Stretch to zoom</string>
+    <string name="no_camera">Your device does not seem to have a camera</string>
+
+</resources>

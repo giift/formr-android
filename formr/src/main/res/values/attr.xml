@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IField">
+        <attr name="textSize" format="dimension"/>
+        <attr name="label" format="string"/>
+        <attr name="giiftHint" format="string"></attr>
+        <attr name="hintPaddingBottom" format="dimension"/>
+    </declare-styleable>
+</resources>
