@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -374,8 +375,11 @@ public class TextArea extends LinearLayout implements IField, TextInputEditText.
     TextInputLayout textInputLayout = this.GetTextInputLayout();
     if (textInputLayout != null) {
       View child = textInputLayout.getChildAt(0);
-      if (child instanceof TextInputEditText) {
-        editText = (TextInputEditText) child;
+      if (child instanceof FrameLayout) {
+        child = ((FrameLayout) child).getChildAt(0);
+        if(child instanceof TextInputEditText){
+          editText = (TextInputEditText) child;
+        }
       }
     }
     return editText;
