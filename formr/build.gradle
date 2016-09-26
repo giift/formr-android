@@ -50,9 +50,9 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:design:24.1.1'
-    compile 'com.google.android.gms:play-services-vision:9.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.android.gms:play-services-vision:9.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'io.card:android-sdk:5.1.2'
     deployerJars 'net.trajano.wagon:wagon-git:2.0.1'
