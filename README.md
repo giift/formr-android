@@ -921,25 +921,27 @@ repositories {
 }
 ```
 
-*  The different type of fields currently supported in the library are as follows
-1. Button Choice
+## The different type of fields currently supported in the library are ## 
+
+### 1. Button Choice ###
+
 This field allows users to select from a choice of available options
- 
-It can be build as follows
 
-Programmatically
+It can be added through code
 
+```
 ButtonChoice button = new ButtonChoice(context)
 button.InitOptionsArray(optionsArray) // where optionsArray can be a HashMap<String, String> or ArrayList<Pair<String, String>>
-
+```
 
 You can also add the button choice using xml
 
+```
 <com.giift.formr.field.Text
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+```
 ### Contribution guidelines ###
 
 * Writing tests
