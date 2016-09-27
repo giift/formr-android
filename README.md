@@ -33,7 +33,27 @@ repositories {
 }
 
 ```
-* Example JSON Configuration inorder to build a Form
+The form is capable of handling orientation changes on its own and the values in the form are retained.
+
+The form can be build via code 
+```
+Form form = new Form(Context);
+```
+
+or Added in xml
+
+```
+ <com.giift.formr.Form
+            android:id="@+id/stripe_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+```
+To Initialise the form
+
+```
+form.Init(json) //example json below
+```
+Example JSON Configuration in-order to build a Form
 ```
 {
 	"fields": {
@@ -921,7 +941,7 @@ repositories {
 }
 ```
 
-## The different type of fields currently supported in the library are ## 
+##  The different type of fields currently supported in the library are  ## 
 
 ### 1. Button Choice ###
 
