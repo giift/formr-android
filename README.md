@@ -7,9 +7,9 @@ The individual form elements can be used independently of the form as well.
 
 * Set-Up information
 
-In your app gradle dependencies add
+*In your app gradle dependencies add
 compile 'com.giift:formr:2016.09.+'
-
+```
 repositories {
     maven {
         url 'https://api.bitbucket.org/1.0/repositories/giiftalldev/giiftsdk-maven/raw/master'
@@ -22,6 +22,13 @@ repositories {
         dirs 'libs'
     }
 }
+
+```
+
+
+
+
+
 
 * Configuration
 * Dependencies
