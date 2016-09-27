@@ -1,6 +1,6 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Android Library to build a Form from a JSON configuration. The individual element views can be used in any Android View.
 
 ### What is this repository for? ###
 
