@@ -5,18 +5,18 @@ The individual form elements can be used independently of the form as well.
 
 ### How do I get set up? ###
 
-* Set-Up information
-  Add the following to your app .gradle 
+###  Gradle Configuration### 
+* Add the following to your app .gradle 
 
-1. 
+1. Add Dependency 
+ 
 ```
 dependencies {
 compile 'com.giift:formr:2016.09.+'
 }
-
 ```
 
-2.
+2.  Configure Repository
 ```
 repositories {
     maven {
