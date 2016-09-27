@@ -1,16 +1,28 @@
 # README #
 
-Android Library to build a Form from a JSON configuration. The individual element views can be used in any Android View.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Android Library to build an Android style Form from a JSON object.
+The individual form elements can be used independently of the form as well.
 
 ### How do I get set up? ###
 
-* Summary of set up
+* Set-Up information
+
+In your app gradle dependencies add
+compile 'com.giift:formr:2016.09.+'
+
+repositories {
+    maven {
+        url 'https://api.bitbucket.org/1.0/repositories/giiftalldev/giiftsdk-maven/raw/master'
+        credentials {
+            username getRepositoryUsername()
+            password getRepositoryPassword()
+        }
+    }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 * Configuration
 * Dependencies
 * Database configuration
