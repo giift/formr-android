@@ -5,7 +5,7 @@ The individual form elements can be used independently of the form as well.
 
 ### How do I get set up? ###
 
-###  Gradle Configuration### 
+###  Gradle Configuration ### 
 * Add the following to your app .gradle 
 
 1. Add Dependency 
