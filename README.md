@@ -99,7 +99,29 @@ Example JSON Configuration in-order to build a Form
 }
 ```
 
-## The different type of fields currently supported in the library are ## 
+## Input types ## 
+
+Each of the below mentioned Fields has the following method
+
+```
+public void SetLabel(String label)
+```
+
+Sets a label above the Field.
+For Input type Text and TextArea it sets a floating action label
+
+```
+public void SetError(@Nullable String error)
+```
+
+Sets error with the msg on the Field.
+
+```
+public void SetHint(String hint)
+```
+
+Sets a hint below the field.
+
 
 ### 1. Button Choice ###
 
@@ -115,18 +137,153 @@ button.InitOptionsArray(optionsArray) // where optionsArray can be a HashMap<Str
 You can also add the button choice using xml
 
 ```
-<com.giift.formr.field.Text
-        android:id="@+id/text"
+<com.giift.formr.field.ButtonChoice
+        android:id="@+id/buttonChoice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:label= " Button Choice Title "  // Title for the Button options
+/>
 ```
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+```
+ public void SetSelectedPosition(int position)
+```
+Selects option at specified position
+
+
+### 2. Card Number ###
+This field allows users to input a credit card number . It also has a button to scan credit card to fetch details.
+
+It can be added through code
+
+```
+CardNumber button = new CardNumber (context)
+```
+
+You can also add the button choice using xml
+
+```
+<com.giift.formr.field.CardNumber
+        android:id="@+id/card Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:label= " Card Number Title "  // Title for the Button options
+/>
+```
+
+```
+public boolean Validate()
+```
+returns false if invalid credit card number
+
+### 3. Checkbox ###
+This adds multi- select checkbox options
+
+### 4. Cvv ###
+Input field for collecting credit card cvv details
+
+### 5. Date ###
+Field to launch DatePicker Dialog.
+```
+public void SetDate(java.util.Date date)
+```
+Set a date to be selected
+
+```
+ public java.util.Date GetDate()
+```
+Get selected date
+
+
+### 6. Day ###
+Input field for entering day of the month
+
+### 7. Dropdown ###
+Provides a list of options.
+ 
+### 8. Email ###
+Input field for entering a email address
+
+```
+boolean Validate()  
+```
+validates if email address is valid
+
+### 9. Month ###
+
+Provides a drop-down for selecting a month
+
+### 10. Number ###
+Input field for entering a number
+
+### 11. Onoff ###
+
+Switch
+
+### 12. Password ###
+Input field for entering a password. The input text is encrypted while displaying
+
+### 13. PersonName ###
+Input field for entering a name.
+
+### 14. Phone ###
+Input field for entering a phone number.
+
+### 15. PostalAddress ###
+Input field for entering a address.
+
+### 16. Slider ###
+Slider to select a value.
+
+```
+public void SetMin(double v)
+```
+Set minimum value for slider
+
+```
+public void SetMax(double v)
+```
+Set maximum value for slider
+
+```
+public void SetStep(double v)
+```
+Set slider increment value
+
+```
+public void SetValue(double v)
+```
+Set slider selected value
+
+### 17. Text ###
+
+Material style input textbox. 
+
+```
+public void SetText(String text)
+public void SetText(CharSequence text)
+```
+Set text value
+
+```
+public void SetScannable(boolean scannable)
+```
+If set to true; a barcode scanner option is displayed
+
+
+### 18. TextArea ###
+
+Multi line text input
+
+### 19. Url ###
+Input field for entering a url
+
+### 20. Year###
+Input field for entering a year number
+
+### 21. Zip ###
+Input field for entering a zipcode
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* If you have any questions please contact us at [vieony.dacosta@giift.com](Link URL) or nicolas.lagier@giift.com
