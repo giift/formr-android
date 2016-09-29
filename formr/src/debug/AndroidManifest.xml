@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity android:name="com.giift.formr.activity.MainActivity"
+                  android:theme="@style/Theme.AppCompat.Light.DarkActionBar"  >
+        </activity>
+    </application>
+</manifest>
