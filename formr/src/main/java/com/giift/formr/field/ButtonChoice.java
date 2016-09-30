@@ -196,7 +196,7 @@ public class ButtonChoice extends LinearLayout implements IField,
   @Override
   public void SetError(@Nullable String error) {
     boolean showError = false;
-    if (!TextUtils.isEmpty(error)) {
+    if (!TextUtils.isEmpty(error) && !error.equals("null")) {
       showError = true;
     }
     if (this.errorText_ != null) {
@@ -225,7 +225,7 @@ public class ButtonChoice extends LinearLayout implements IField,
    */
   @Override
   public void SetHint(String hint) {
-    if (!TextUtils.isEmpty(hint)) {
+    if (!TextUtils.isEmpty(hint) && !hint.equals("null")) {
       this.hintText_.setText(hint);
       this.hintText_.setVisibility(VISIBLE);
     }

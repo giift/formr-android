@@ -174,5 +174,4 @@ public class UtilsTest {
     assertFalse("Multiple dot in the domain portion is invalid", Utils.IsEmailValid(email));
   }
 
-
 }
