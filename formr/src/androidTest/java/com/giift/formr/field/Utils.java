@@ -38,6 +38,19 @@ public class Utils {
     return str;
   }
 
+  /**
+   * @param length length of the string
+   * @return string
+   */
+  public static String GetRandomNumericString(int length) {
+    String res = "";
+    Random rand = new Random();
+    for (int i = 0; i < length; i++) {
+      res += Integer.toString(rand.nextInt(10));
+    }
+    return res;
+  }
+
   public static void rotateScreen(ActivityTestRule activityTestRule) {
     Context context = InstrumentationRegistry.getTargetContext();
     int orientation

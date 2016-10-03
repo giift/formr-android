@@ -19,10 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -32,45 +28,60 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  * @author vieony on 9/30/2016.
  */
 @RunWith(AndroidJUnit4.class)
-public class ButtonChoiceTestJsonConfig {
+public class CardNumberTestJsonConfig {
   @Rule
   public ActivityTestRule<MainActivity> activityTestRule_ = new ActivityTestRule<>(
       MainActivity.class);
 
   @Before
-  public void ScrollToButtonChoice() {
-    onView( withId( R.id.buttonChoice)).perform( scrollTo());
+  public void ScrollToCardNumber() {
+    onView(withId( R.id.cardNumber)).perform( scrollTo());
   }
 
   @Test
-  public void ButtonChoiceInitJson() {
+  public void CardNumberInitJson() {
     String id = Utils.GetUniqueStringId();
-    LinkedHashMap<String, String> options = GetOptions();
-    onView(withId(R.id.buttonChoice)).perform(
-        initView(GetButtonChoiceJson(id, false, null, options, null, null)));
-    onView(withId(R.id.buttonChoice)).check(matches(ButtonChoiceTest.Validate(true)));
+    onView(withId(R.id.cardNumber)).perform(
+        initView(GetTextJson(id, false, null, null, null)));
+    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.FieldId(id)));
   }
 
   @Test
-  public void ButtonChoiceInitJsonCheckValue() {
+  public void CardNumberInitJsonCheckValue01() {
     String id = Utils.GetUniqueStringId();
-    LinkedHashMap<String, String> options = GetOptions();
-    Object[] optionsArray = options.keySet().toArray();
-    Object key = optionsArray[new Random().nextInt(optionsArray.length)];
-    String value = key.toString();
+    String value = "1234567812345678";
     String hint = Utils.GetUniqueStringId();
-    String error = Utils.GetUniqueStringId();
-    onView(withId(R.id.buttonChoice)).perform(
-        initView(GetButtonChoiceJson(id, true, value, options, hint, error)));
-    onView(withId(R.id.buttonChoice)).check(matches(ButtonChoiceTest.Value(value)));
+    onView(withId(R.id.cardNumber)).perform(
+        initView(GetTextJson(id, true, value, hint, null)));
+    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Value(value)));
   }
+
+  @Test
+  public void CardNumberInitJsonCheckValue02() {
+    String id = Utils.GetUniqueStringId();
+    String value = "4012888888881881";
+    onView(withId(R.id.cardNumber)).perform(
+        initView(GetTextJson(id, true, value, null, null)));
+    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Value(value)));
+    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(true)));
+  }
+
+  @Test
+  public void CardNumberJsonCheckValue03() {
+    String id = Utils.GetUniqueStringId();
+    String value = "0000123488881881";
+    onView(withId(R.id.cardNumber)).perform(
+        initView(GetTextJson(id, false, value, null, null)));
+    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(false)));
+  }
+
 
   private ViewAction initView(final JSONObject jsonObject) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        ButtonChoice buttonChoice = (ButtonChoice) view;
-        buttonChoice.Init(jsonObject);
+        CardNumber cardNumber = (CardNumber) view;
+        cardNumber.Init(jsonObject);
       }
 
       @Override
@@ -80,18 +91,17 @@ public class ButtonChoiceTestJsonConfig {
 
       @Override
       public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(ButtonChoice.class);
+        return ViewMatchers.isAssignableFrom(CardNumber.class);
       }
     };
   }
 
-  private JSONObject GetButtonChoiceJson(
+  private JSONObject GetTextJson(
       String id,
       boolean mandatory,
       String value,
-      LinkedHashMap<String, String> options,
       String hint,
-      String error) {
+      String error){
     JSONObject object = null;
     try {
       object = new JSONObject();
@@ -99,13 +109,6 @@ public class ButtonChoiceTestJsonConfig {
       object.put("mandatory", mandatory);
       object.put("value", value);
       JSONObject settings = new JSONObject();
-      if (options != null) {
-        JSONObject optionsJson = new JSONObject();
-        for (Map.Entry<String, String> e : options.entrySet()) {
-          optionsJson.put(e.getKey(), e.getValue());
-        }
-        settings.put("options", optionsJson);
-      }
       if (!TextUtils.isEmpty(hint)) {
         JSONObject hintJson = new JSONObject();
         hintJson.put("label", hint);
@@ -121,13 +124,5 @@ public class ButtonChoiceTestJsonConfig {
       e.printStackTrace();
     }
     return object;
-  }
-
-  private LinkedHashMap<String, String> GetOptions() {
-    LinkedHashMap<String, String> options = new LinkedHashMap<>();
-    options.put("ten", "$ 10");
-    options.put("twenty", "$ 20");
-    options.put("thirty", "$ 30");
-    return options;
   }
 }

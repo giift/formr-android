@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -39,6 +40,7 @@ public class ButtonChoiceTest {
 
   @Before
   public void InitButtonChoice() {
+    onView( withId( R.id.buttonChoice)).perform( scrollTo());
     onView(withId(R.id.buttonChoice)).perform(initView());
   }
 
@@ -187,7 +189,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  public static Matcher<View> Validate(boolean expectedValidation) {
+  public static Matcher<View> Validate(final boolean expectedValidation) {
     return new TypeSafeMatcher<View>() {
 
       @Override
@@ -198,7 +200,7 @@ public class ButtonChoiceTest {
 
         boolean validate = ((ButtonChoice) view).Validate();
 
-        return validate;
+        return (validate==expectedValidation);
       }
 
       @Override

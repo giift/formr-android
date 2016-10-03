@@ -9,12 +9,16 @@ import android.view.View;
 import com.giift.formr.R;
 import com.giift.formr.activity.MainActivity;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -28,6 +32,11 @@ public class CardNumberTest {
   @Rule
   public ActivityTestRule<MainActivity> activityTestRule_ = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Before
+  public void ScrollToCardNumber() {
+    onView(withId( R.id.cardNumber)).perform( scrollTo());
+  }
 
   @Test
   public void ViewVisible() {
@@ -78,7 +87,6 @@ public class CardNumberTest {
   public void SetError03() {
     onView(withId(R.id.cardNumber)).perform(setError("Card Number error"));
   }
-
 
   private ViewAction setLabel(final String label) {
     return new ViewAction() {
@@ -144,4 +152,66 @@ public class CardNumberTest {
     };
   }
 
+  public static Matcher<View> FieldId(final String expectedId) {
+    return new TypeSafeMatcher<View>() {
+
+      @Override
+      public boolean matchesSafely(View view) {
+        if (!(view instanceof CardNumber)) {
+          return false;
+        }
+
+        String id = ((CardNumber) view).GetFieldId();
+
+        return expectedId.equals(id);
+      }
+
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Get Button Choice Id");
+      }
+    };
+  }
+
+  public static Matcher<View> Value(final String expectedValue) {
+    return new TypeSafeMatcher<View>() {
+
+      @Override
+      public boolean matchesSafely(View view) {
+        if (!(view instanceof CardNumber)) {
+          return false;
+        }
+
+        String value = ((CardNumber) view).GetValues()[0];
+
+        return expectedValue.equals(value);
+      }
+
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Get key of the currently selected option");
+      }
+    };
+  }
+
+  public static Matcher<View> Validate(final boolean expectedValidation) {
+    return new TypeSafeMatcher<View>() {
+
+      @Override
+      public boolean matchesSafely(View view) {
+        if (!(view instanceof CardNumber)) {
+          return false;
+        }
+
+        boolean validate = ((CardNumber) view).Validate();
+
+        return (validate==expectedValidation);
+      }
+
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Get Validation Result" + expectedValidation);
+      }
+    };
+  }
 }
