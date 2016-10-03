@@ -7,7 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.giift.formr.R;
-import com.giift.formr.activity.MainActivity;
+import com.giift.formr.activity.FieldsTestActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -23,6 +23,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 /**
  * @author vieony on 9/30/2016.
  */
@@ -30,12 +31,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class CardNumberTest {
 
   @Rule
-  public ActivityTestRule<MainActivity> activityTestRule_ = new ActivityTestRule<>(
-      MainActivity.class);
+  public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
+      FieldsTestActivity.class);
 
   @Before
   public void ScrollToCardNumber() {
-    onView(withId( R.id.cardNumber)).perform( scrollTo());
+    onView(withId(R.id.cardNumber)).perform(scrollTo());
   }
 
   @Test
@@ -205,7 +206,7 @@ public class CardNumberTest {
 
         boolean validate = ((CardNumber) view).Validate();
 
-        return (validate==expectedValidation);
+        return (validate == expectedValidation);
       }
 
       @Override

@@ -4,10 +4,10 @@ import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.giift.formr.R;
 import com.giift.formr.activity.FieldsTestActivity;
@@ -18,84 +18,82 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withTagValue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
- * @author vieony on 9/30/2016.
+ * @author vieony on 10/3/2016.
  */
-@RunWith(AndroidJUnit4.class)
-public class CardNumberTestJsonConfig {
+public class TextTestJsonConfig {
 
-  private static final String LOG_TAG = CardNumberTestJsonConfig.class.getName();
+  private static final String LOG_TAG = TextTestJsonConfig.class.getName();
 
   @Rule
   public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
       FieldsTestActivity.class);
 
   @Before
-  public void ScrollToCardNumber() {
-    onView(withId(R.id.cardNumber)).perform(scrollTo());
+  public void ScrollToText() {
+    onView(withId(R.id.text)).perform(scrollTo());
+  }
+
+
+  @Test
+  public void TextInitJson01() {
+    String id = Utils.GetUniqueStringId();
+    JSONObject jsonObject = GetTextJson(id, true, null, false, null, null, null);
+    onView(withId(R.id.text)).perform(initView(jsonObject));
+    onView(withId(R.id.text)).check(matches(TextTest.FieldId(id)));
   }
 
   @Test
-  public void CardNumberInitJson01() {
+  public void TextInitJson02() {
     String id = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, null, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.FieldId(id)));
-  }
-
-  @Test
-  public void CardNumberInitJson02() {
-    String id = Utils.GetUniqueStringId();
-    String value = "1234567812345678";
+    String value = Utils.GetUniqueStringId();
     String hint = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, hint, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Value(value)));
+    String error = Utils.GetUniqueStringId();
+    final JSONObject jsonObject;
+    JSONObject callback = null;
+    try {
+      callback = new JSONObject();
+      callback.put("on_focus_lost", Utils.GetUniqueStringId());
+      callback.put("on_value_changed", Utils.GetUniqueStringId());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    jsonObject = GetTextJson(id, true, value, true, hint, error, callback);
+    onView(withId(R.id.text)).perform(initView(jsonObject));
+    Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.text)));
+    onView(allOf(withTagValue(is((Object) "scannable")), withParent(linearLayout))).check(matches(isDisplayed()));
+    onView(withId(R.id.text)).check(matches(TextTest.Value(value)));
   }
-
-  @Test
-  public void CardNumberInitJson03() {
-    String id = Utils.GetUniqueStringId();
-    String value = "4012888888881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Value(value)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(true)));
-  }
-
-  @Test
-  public void CardNumberInitJson04() {
-    String id = Utils.GetUniqueStringId();
-    String value = "0000123488881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(false)));
-  }
-
 
   private ViewAction initView(final JSONObject jsonObject) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.Init(jsonObject);
+        Text text = (Text) view;
+        text.Init(jsonObject);
       }
 
       @Override
       public String getDescription() {
-        return "Set position for ButtonChoice";
+        return "Initialise text JsonConfig";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Text.class);
       }
     };
   }
@@ -104,8 +102,10 @@ public class CardNumberTestJsonConfig {
       String id,
       boolean mandatory,
       String value,
+      boolean scannable,
       String hint,
-      String error) {
+      String error,
+      JSONObject callback) {
     JSONObject object = null;
     try {
       object = new JSONObject();
@@ -113,6 +113,7 @@ public class CardNumberTestJsonConfig {
       object.put("mandatory", mandatory);
       object.put("value", value);
       JSONObject settings = new JSONObject();
+      settings.put("scannable", scannable);
       if (!TextUtils.isEmpty(hint)) {
         JSONObject hintJson = new JSONObject();
         hintJson.put("label", hint);
@@ -123,10 +124,12 @@ public class CardNumberTestJsonConfig {
         errorJson.put("label", error);
         settings.put("error", errorJson);
       }
+      if (callback != null) {
+        settings.put("callback", callback);
+      }
       object.put("settings", settings);
     } catch (JSONException e) {
       Log.e(LOG_TAG, "Json Exception", e);
-
     }
     return object;
   }

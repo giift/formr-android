@@ -5,7 +5,7 @@
         tools:overrideLibrary="android.support.test.uiautomator.v18"
         />
     <application>
-        <activity android:name="com.giift.formr.activity.MainActivity"
+        <activity android:name="com.giift.formr.activity.FieldsTestActivity"
                   android:theme="@style/Theme.AppCompat.Light.DarkActionBar"  >
         </activity>
     </application>

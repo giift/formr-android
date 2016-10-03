@@ -6,10 +6,11 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.giift.formr.R;
-import com.giift.formr.activity.MainActivity;
+import com.giift.formr.activity.FieldsTestActivity;
 
 import org.hamcrest.Matcher;
 import org.json.JSONException;
@@ -33,9 +34,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @RunWith(AndroidJUnit4.class)
 public class ButtonChoiceTestJsonConfig {
+
+  private static final String LOG_TAG = ButtonChoiceTestJsonConfig.class.getName();
   @Rule
-  public ActivityTestRule<MainActivity> activityTestRule_ = new ActivityTestRule<>(
-      MainActivity.class);
+  public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
+      FieldsTestActivity.class);
 
   @Before
   public void ScrollToButtonChoice() {
@@ -43,7 +46,7 @@ public class ButtonChoiceTestJsonConfig {
   }
 
   @Test
-  public void ButtonChoiceInitJson() {
+  public void ButtonChoiceInitJson01() {
     String id = Utils.GetUniqueStringId();
     LinkedHashMap<String, String> options = GetOptions();
     onView(withId(R.id.buttonChoice)).perform(
@@ -52,7 +55,7 @@ public class ButtonChoiceTestJsonConfig {
   }
 
   @Test
-  public void ButtonChoiceInitJsonCheckValue() {
+  public void ButtonChoiceInitJson02() {
     String id = Utils.GetUniqueStringId();
     LinkedHashMap<String, String> options = GetOptions();
     Object[] optionsArray = options.keySet().toArray();
@@ -75,7 +78,7 @@ public class ButtonChoiceTestJsonConfig {
 
       @Override
       public String getDescription() {
-        return "Set position for ButtonChoice";
+        return "Initialise ButtonChoice Json";
       }
 
       @Override
@@ -118,7 +121,7 @@ public class ButtonChoiceTestJsonConfig {
       }
       object.put("settings", settings);
     } catch (JSONException e) {
-      e.printStackTrace();
+      Log.e(LOG_TAG, "Json Exception", e);
     }
     return object;
   }

@@ -9,7 +9,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.giift.formr.R;
-import com.giift.formr.activity.MainActivity;
+import com.giift.formr.activity.FieldsTestActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -35,8 +35,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class ButtonChoiceTest {
 
   @Rule
-  public ActivityTestRule<MainActivity> activityTestRule_ = new ActivityTestRule<>(
-      MainActivity.class);
+  public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
+      FieldsTestActivity.class);
 
   @Before
   public void InitButtonChoice() {
@@ -66,7 +66,6 @@ public class ButtonChoiceTest {
     int random = new Random().nextInt(100);
     onView(withId(R.id.buttonChoice)).perform(setPosition(random));
   }
-
 
   @Test
   public void SetLabel01() {
