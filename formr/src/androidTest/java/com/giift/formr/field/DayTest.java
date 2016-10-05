@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -43,6 +44,7 @@ public class DayTest {
       FieldsTestActivity.class);
   @Before
   public void ScrollToDay() {
+    onView(withId(R.id.day)).perform(closeSoftKeyboard());
     onView(withId(R.id.day)).perform(scrollTo());
     onView(withId(R.id.day)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.day)));
@@ -56,6 +58,7 @@ public class DayTest {
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText("")));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
@@ -63,5 +66,6 @@ public class DayTest {
     String value = "123";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value.substring(0,2))));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 }

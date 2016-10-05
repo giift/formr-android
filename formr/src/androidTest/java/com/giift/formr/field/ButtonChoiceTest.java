@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -40,8 +41,9 @@ public class ButtonChoiceTest {
 
   @Before
   public void InitButtonChoice() {
+    onView(withId(R.id.buttonChoice)).perform(closeSoftKeyboard());
     onView( withId( R.id.buttonChoice)).perform( scrollTo());
-    onView(withId(R.id.buttonChoice)).perform(initView());
+    onView(withId(R.id.buttonChoice)).perform(InitView());
   }
 
   @Test
@@ -51,77 +53,77 @@ public class ButtonChoiceTest {
 
   @Test
   public void GetValue() {
-    onView(withId(R.id.buttonChoice)).perform(setPosition(0));
-    onView(withId(R.id.buttonChoice)).check(matches(Value("0")));
+    onView(withId(R.id.buttonChoice)).perform(SetPosition(0));
+    onView(withId(R.id.buttonChoice)).check(matches(GetValue("0")));
   }
 
   @Test
   public void SelectPosition01() {
     int random = new Random().nextInt(3);
-    onView(withId(R.id.buttonChoice)).perform(setPosition(random));
+    onView(withId(R.id.buttonChoice)).perform(SetPosition(random));
   }
 
   @Test
   public void SelectPosition02() {
     int random = new Random().nextInt(100);
-    onView(withId(R.id.buttonChoice)).perform(setPosition(random));
+    onView(withId(R.id.buttonChoice)).perform(SetPosition(random));
   }
 
   @Test
   public void SetLabel01() {
-    onView(withId(R.id.buttonChoice)).perform(setLabel(null));
+    onView(withId(R.id.buttonChoice)).perform(SetLabel(null));
   }
 
   @Test
   public void SetLabel02() {
-    onView(withId(R.id.buttonChoice)).perform(setLabel("null"));
+    onView(withId(R.id.buttonChoice)).perform(SetLabel("null"));
   }
 
   @Test
   public void SetLabel03() {
-    onView(withId(R.id.buttonChoice)).perform(setLabel("Available Options"));
+    onView(withId(R.id.buttonChoice)).perform(SetLabel("Available Options"));
   }
 
   @Test
   public void SetHint01() {
-    onView(withId(R.id.buttonChoice)).perform(setHint(null));
+    onView(withId(R.id.buttonChoice)).perform(SetHint(null));
   }
 
   @Test
   public void SetHint02() {
-    onView(withId(R.id.buttonChoice)).perform(setHint("null"));
+    onView(withId(R.id.buttonChoice)).perform(SetHint("null"));
   }
 
   @Test
   public void SetHint03() {
-    onView(withId(R.id.buttonChoice)).perform(setHint("Button Choice hint"));
+    onView(withId(R.id.buttonChoice)).perform(SetHint("Button Choice hint"));
   }
 
   @Test
   public void SetError01() {
-    onView(withId(R.id.buttonChoice)).perform(setError(null));
+    onView(withId(R.id.buttonChoice)).perform(SetError(null));
   }
 
   @Test
   public void SetError02() {
-    onView(withId(R.id.buttonChoice)).perform(setError("null"));
+    onView(withId(R.id.buttonChoice)).perform(SetError("null"));
   }
 
   @Test
   public void SetError03() {
-    onView(withId(R.id.buttonChoice)).perform(setError("Button Choice error"));
+    onView(withId(R.id.buttonChoice)).perform(SetError("Button Choice error"));
   }
 
   @Test
   public void OrientationChange() {
-    onView(withId(R.id.buttonChoice)).perform(setPosition(0));
-    onView(withId(R.id.buttonChoice)).check(matches(Value("0")));
+    onView(withId(R.id.buttonChoice)).perform(SetPosition(0));
+    onView(withId(R.id.buttonChoice)).check(matches(GetValue("0")));
     Utils.rotateScreen(this.activityTestRule_);
     InitButtonChoice();
-    onView(withId(R.id.buttonChoice)).check(matches(Value("0")));
+    onView(withId(R.id.buttonChoice)).check(matches(GetValue("0")));
   }
 
-  private ViewAction initView() {
+  private ViewAction InitView() {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -146,7 +148,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  public static Matcher<View> FieldId(final String expectedId) {
+  public static Matcher<View> GetFieldId(final String expectedId) {
     return new TypeSafeMatcher<View>() {
 
       @Override
@@ -167,7 +169,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  public static Matcher<View> Value(final String expectedValue) {
+  public static Matcher<View> GetValue(final String expectedValue) {
     return new TypeSafeMatcher<View>() {
 
       @Override
@@ -209,7 +211,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  private ViewAction setPosition(final int num) {
+  private ViewAction SetPosition(final int num) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -230,7 +232,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  private ViewAction setLabel(final String label) {
+  private ViewAction SetLabel(final String label) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -251,7 +253,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  private ViewAction setHint(final String hint) {
+  private ViewAction SetHint(final String hint) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -272,7 +274,7 @@ public class ButtonChoiceTest {
     };
   }
 
-  private ViewAction setError(final String error) {
+  private ViewAction SetError(final String error) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {

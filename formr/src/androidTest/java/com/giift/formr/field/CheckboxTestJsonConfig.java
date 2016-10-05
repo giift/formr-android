@@ -20,94 +20,97 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.*;
 
 /**
- * @author vieony on 9/30/2016.
+ * @author vieony on 10/4/2016.
  */
 @RunWith(AndroidJUnit4.class)
-public class CardNumberTestJsonConfig {
+public class CheckboxTestJsonConfig {
 
-  private static final String LOG_TAG = CardNumberTestJsonConfig.class.getName();
+  private static final String LOG_TAG = CheckboxTestJsonConfig.class.getName();
 
   @Rule
   public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
       FieldsTestActivity.class);
 
   @Before
-  public void ScrollToCardNumber() {
-    onView(withId(R.id.cardNumber)).perform(closeSoftKeyboard());
-    onView(withId(R.id.cardNumber)).perform(scrollTo());
+  public void ScrollToCheckbox() {
+    onView(withId(R.id.checkbox)).perform(closeSoftKeyboard());
+    onView(withId(R.id.checkbox)).perform(scrollTo());
+    onView(withId(R.id.checkbox)).check(matches(isDisplayed()));
   }
 
   @Test
-  public void CardNumberInitJson01() {
+  public void CheckboxInitJson01() {
     String id = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, null, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetFieldId(id)));
+    LinkedHashMap<String, String> options = GetOptions();
+    onView(withId(R.id.checkbox)).perform(
+        InitView(GetCheckboxJson(id, false, null, options, null, null, null)));
+    onView(withId(R.id.checkbox)).check(matches(CheckboxTest.GetFieldId(id)));
   }
 
   @Test
-  public void CardNumberInitJson02() {
+  public void CheckboxInitJson02() {
     String id = Utils.GetUniqueStringId();
-    String value = "1234567812345678";
+    LinkedHashMap<String, String> options = GetOptions();
     String hint = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, hint, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetValue(value)));
+    String error = Utils.GetUniqueStringId();
+    JSONObject callback = new JSONObject();
+    try {
+      callback.put("on_focus_lost", Utils.GetUniqueStringId());
+      callback.put("on_value_changed", Utils.GetUniqueStringId());
+    }catch (JSONException e){
+      Log.e(LOG_TAG, "Json Exception", e);
+    }
+    onView(withId(R.id.checkbox)).perform(
+        InitView(GetCheckboxJson(id, true, null, options, hint, error, callback)));
   }
 
-  @Test
-  public void CardNumberInitJson03() {
-    String id = Utils.GetUniqueStringId();
-    String value = "4012888888881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetValue(value)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(true)));
-  }
-
-  @Test
-  public void CardNumberInitJson04() {
-    String id = Utils.GetUniqueStringId();
-    String value = "0000123488881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(false)));
-  }
-
-
-  private ViewAction initView(final JSONObject jsonObject) {
+  private ViewAction InitView(final JSONObject jsonObject) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.Init(jsonObject);
+        Checkbox checkbox = (Checkbox) view;
+        checkbox.Init(jsonObject);
       }
 
       @Override
       public String getDescription() {
-        return "Set position for ButtonChoice";
+        return "Initialise Checkbox Json";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Checkbox.class);
       }
     };
   }
+  private LinkedHashMap<String, String> GetOptions() {
+    LinkedHashMap<String, String> options = new LinkedHashMap<>();
+    options.put("1", "Monday");
+    options.put("2", "Tuesday");
+    options.put("3", "Wednesday");
+    return options;
+  }
 
-  private JSONObject GetTextJson(
+  private JSONObject GetCheckboxJson(
       String id,
       boolean mandatory,
       String value,
+      LinkedHashMap<String, String> options,
       String hint,
-      String error) {
+      String error,
+      JSONObject callback){
     JSONObject object = null;
     try {
       object = new JSONObject();
@@ -115,6 +118,13 @@ public class CardNumberTestJsonConfig {
       object.put("mandatory", mandatory);
       object.put("value", value);
       JSONObject settings = new JSONObject();
+      if (options != null) {
+        JSONObject optionsJson = new JSONObject();
+        for (Map.Entry<String, String> e : options.entrySet()) {
+          optionsJson.put(e.getKey(), e.getValue());
+        }
+        settings.put("options", optionsJson);
+      }
       if (!TextUtils.isEmpty(hint)) {
         JSONObject hintJson = new JSONObject();
         hintJson.put("label", hint);
@@ -125,10 +135,12 @@ public class CardNumberTestJsonConfig {
         errorJson.put("label", error);
         settings.put("error", errorJson);
       }
+      if (callback != null) {
+        settings.put("callback", callback);
+      }
       object.put("settings", settings);
-    } catch (JSONException e) {
+    }catch (JSONException e){
       Log.e(LOG_TAG, "Json Exception", e);
-
     }
     return object;
   }

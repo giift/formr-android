@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -40,6 +41,7 @@ public class SliderTestJsonConfig {
 
   @Before
   public void ScrollToSlider() {
+    onView(withId(R.id.slider)).perform(closeSoftKeyboard());
     onView(withId(R.id.slider)).perform(scrollTo());
     onView(withId(R.id.slider)).check(matches(isDisplayed()));
   }

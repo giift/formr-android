@@ -11,6 +11,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.giift.formr.R;
 import com.giift.formr.activity.FieldsTestActivity;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -49,17 +51,16 @@ public class TextTest {
 
   @Before
   public void ScrollToText() {
-    onView(withId(R.id.text)).perform(scrollTo(), click());
+    onView(withId(R.id.text)).perform(closeSoftKeyboard());
+    onView(withId(R.id.text)).perform(scrollTo());
+    onView(withId(R.id.text)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.text)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
-
-  }
-
-  @Test
-  public void ViewVisible() {
-    onView(withId(R.id.text)).check(matches(isDisplayed()));
+    onView(textInputEditText_).perform(scrollTo());
   }
 
   @Test
@@ -71,62 +72,64 @@ public class TextTest {
 
   @Test
   public void SetLabel01() {
-    onView(withId(R.id.text)).perform(setLabel(null));
+    onView(withId(R.id.text)).perform(SetLabel(null));
   }
 
   @Test
   public void SetLabel02() {
-    onView(withId(R.id.text)).perform(setLabel("null"));
+    onView(withId(R.id.text)).perform(SetLabel("null"));
   }
 
   @Test
   public void SetLabel03() {
     String label = "Enter Value";
-    onView(withId(R.id.text)).perform(setLabel(label));
-    onView(textInputLayout_).check(matches(hasTextInputLayoutHintText(label)));
+    onView(withId(R.id.text)).perform(SetLabel(label));
+    onView(textInputLayout_).check(matches(HasTextInputLayoutHintText(label)));
   }
 
   @Test
   public void SetHint01() {
-    onView(withId(R.id.text)).perform(setHint(null));
+    onView(withId(R.id.text)).perform(SetHint(null));
   }
 
   @Test
   public void SetHint02() {
-    onView(withId(R.id.text)).perform(setHint("null"));
+    onView(withId(R.id.text)).perform(SetHint("null"));
   }
 
   @Test
   public void SetHint03() {
-    onView(withId(R.id.text)).perform(setHint("Text hint"));
+    onView(withId(R.id.text)).perform(SetHint("Text hint"));
   }
 
   @Test
   public void SetError01() {
-    onView(withId(R.id.text)).perform(setError(null));
+    onView(withId(R.id.text)).perform(SetError(null));
   }
 
   @Test
   public void SetError02() {
-    onView(withId(R.id.text)).perform(setError("null"));
+    onView(withId(R.id.text)).perform(SetError("null"));
   }
 
   @Test
   public void SetError03() {
-    onView(withId(R.id.text)).perform(setError("Text error"));
+    onView(withId(R.id.text)).perform(SetError("Text error"));
   }
 
   @Test
   public void SetText01() {
-    onView(withId(R.id.text)).perform(setText("Hello"));
+    onView(withId(R.id.text)).perform(SetText("Hello"));
   }
 
   @Test
   public void SetMandatory() {
-    onView(withId(R.id.text)).perform(setMandatory(true));
+    onView(withId(R.id.text)).perform(SetMandatory(true));
     onView(withId(R.id.text)).check(matches(Validate(false)));
     String expectedError = InstrumentationRegistry.getTargetContext().getString(R.string.error_field_required);
-    onView(textInputLayout_).check(matches(hasTextInputLayoutErrorText(expectedError)));
+    onView(textInputEditText_).perform(click());
+    onView(textInputLayout_).check(matches(HasTextInputLayoutErrorText(expectedError)));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
@@ -134,11 +137,12 @@ public class TextTest {
     String value = Utils.GetUniqueStringId();
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
     Utils.rotateScreen(this.activityTestRule_);
     onView(textInputEditText_).check(matches(withText(value)));
   }
 
-  private ViewAction setLabel(final String label) {
+  private ViewAction SetLabel(final String label) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -159,7 +163,7 @@ public class TextTest {
     };
   }
 
-  private ViewAction setHint(final String hint) {
+  private ViewAction SetHint(final String hint) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -180,7 +184,7 @@ public class TextTest {
     };
   }
 
-  private ViewAction setError(final String error) {
+  private ViewAction SetError(final String error) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -201,7 +205,7 @@ public class TextTest {
     };
   }
 
-  private ViewAction setText(final CharSequence textValue) {
+  private ViewAction SetText(final CharSequence textValue) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -222,7 +226,7 @@ public class TextTest {
     };
   }
 
-  private ViewAction setMandatory(final Boolean value) {
+  private ViewAction SetMandatory(final Boolean value) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -243,7 +247,7 @@ public class TextTest {
     };
   }
 
-  public static Matcher<View> FieldId(final String expectedId) {
+  public static Matcher<View> GetFieldId(final String expectedId) {
     return new TypeSafeMatcher<View>() {
 
       @Override
@@ -264,7 +268,7 @@ public class TextTest {
     };
   }
 
-  public static Matcher<View> Value(final String expectedValue) {
+  public static Matcher<View> GetValue(final String expectedValue) {
     return new TypeSafeMatcher<View>() {
 
       @Override
@@ -306,12 +310,13 @@ public class TextTest {
     };
   }
 
-  public static Matcher<View> hasTextInputLayoutHintText(final String expectedHintText) {
+  public static Matcher<View> HasTextInputLayoutHintText(final String expectedHintText) {
     return new TypeSafeMatcher<View>() {
 
       @Override
       public boolean matchesSafely(View view) {
         if (!(view instanceof TextInputLayout)) {
+
           return false;
         }
 
@@ -333,7 +338,7 @@ public class TextTest {
     };
   }
 
-  public static Matcher<View> hasTextInputLayoutErrorText(final String expectedErrorText) {
+  public static Matcher<View> HasTextInputLayoutErrorText(final String expectedErrorText) {
     return new TypeSafeMatcher<View>() {
 
       @Override

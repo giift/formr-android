@@ -1,5 +1,7 @@
 package com.giift.formr.field;
 
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -7,6 +9,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.giift.formr.R;
@@ -21,6 +24,7 @@ import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -44,7 +48,13 @@ public class TextTestJsonConfig {
 
   @Before
   public void ScrollToText() {
+    onView(withId(R.id.text)).perform(closeSoftKeyboard());
     onView(withId(R.id.text)).perform(scrollTo());
+    Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.text)));
+    Matcher<View> textInputLayout = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout));
+    Matcher<View> textInputEditText = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText).perform(scrollTo());
   }
 
 
@@ -53,7 +63,7 @@ public class TextTestJsonConfig {
     String id = Utils.GetUniqueStringId();
     JSONObject jsonObject = GetTextJson(id, true, null, false, null, null, null);
     onView(withId(R.id.text)).perform(initView(jsonObject));
-    onView(withId(R.id.text)).check(matches(TextTest.FieldId(id)));
+    onView(withId(R.id.text)).check(matches(TextTest.GetFieldId(id)));
   }
 
   @Test
@@ -75,7 +85,7 @@ public class TextTestJsonConfig {
     onView(withId(R.id.text)).perform(initView(jsonObject));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.text)));
     onView(allOf(withTagValue(is((Object) "scannable")), withParent(linearLayout))).check(matches(isDisplayed()));
-    onView(withId(R.id.text)).check(matches(TextTest.Value(value)));
+    onView(withId(R.id.text)).check(matches(TextTest.GetValue(value)));
   }
 
   private ViewAction initView(final JSONObject jsonObject) {

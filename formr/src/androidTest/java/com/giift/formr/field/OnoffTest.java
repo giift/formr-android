@@ -2,6 +2,7 @@ package com.giift.formr.field;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -21,94 +22,89 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.*;
 
 /**
- * @author vieony on 9/30/2016.
+ * @author vieony on 10/4/2016.
  */
 @RunWith(AndroidJUnit4.class)
-public class CardNumberTest {
+public class OnoffTest {
 
   @Rule
   public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
       FieldsTestActivity.class);
 
   @Before
-  public void ScrollToCardNumber() {
-    onView(withId(R.id.cardNumber)).perform(closeSoftKeyboard());
-    onView(withId(R.id.cardNumber)).perform(scrollTo());
-  }
-
-  @Test
-  public void ViewVisible() {
-    onView(withId(R.id.cardNumber)).check(matches(isDisplayed()));
+  public void ScrollToOnoff() {
+    onView(withId(R.id.onoff)).perform(closeSoftKeyboard());
+    onView(withId(R.id.onoff)).perform(scrollTo());
+    onView(withId(R.id.onoff)).check(matches(isDisplayed()));
   }
 
   @Test
   public void SetLabel01() {
-    onView(withId(R.id.cardNumber)).perform(SetLabel(null));
+    onView(withId(R.id.onoff)).perform(SetLabel(null));
   }
 
   @Test
   public void SetLabel02() {
-    onView(withId(R.id.cardNumber)).perform(SetLabel("null"));
+    onView(withId(R.id.onoff)).perform(SetLabel("null"));
   }
 
   @Test
   public void SetLabel03() {
-    onView(withId(R.id.cardNumber)).perform(SetLabel("Input Card Number"));
+    onView(withId(R.id.onoff)).perform(SetLabel("Please accept"));
   }
 
   @Test
   public void SetHint01() {
-    onView(withId(R.id.cardNumber)).perform(SetHint(null));
+    onView(withId(R.id.onoff)).perform(SetHint(null));
   }
 
   @Test
   public void SetHint02() {
-    onView(withId(R.id.cardNumber)).perform(SetHint("null"));
+    onView(withId(R.id.onoff)).perform(SetHint("null"));
   }
 
   @Test
   public void SetHint03() {
-    onView(withId(R.id.cardNumber)).perform(SetHint("Card Number hint"));
+    onView(withId(R.id.onoff)).perform(SetHint("Onoff hint"));
   }
 
   @Test
   public void SetError01() {
-    onView(withId(R.id.cardNumber)).perform(SetError(null));
+    onView(withId(R.id.onoff)).perform(SetError(null));
   }
 
   @Test
   public void SetError02() {
-    onView(withId(R.id.cardNumber)).perform(SetError("null"));
+    onView(withId(R.id.onoff)).perform(SetError("null"));
   }
 
   @Test
   public void SetError03() {
-    onView(withId(R.id.cardNumber)).perform(SetError("Card Number error"));
+    onView(withId(R.id.onoff)).perform(SetError("Onoff error"));
   }
 
   private ViewAction SetLabel(final String label) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.SetLabel(label);
+        Onoff onoff = (Onoff) view;
+        onoff.SetLabel(label);
 
       }
 
       @Override
       public String getDescription() {
-        return "Set label for Card Number";
-
+        return "Set label for Onoff";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Onoff.class);
       }
     };
   }
@@ -117,19 +113,19 @@ public class CardNumberTest {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.SetHint(hint);
+        Onoff onoff = (Onoff) view;
+        onoff.SetHint(hint);
 
       }
 
       @Override
       public String getDescription() {
-        return "Set hint for Card Number";
+        return "Set hint for Onoff";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Onoff.class);
       }
     };
   }
@@ -138,83 +134,61 @@ public class CardNumberTest {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.SetError(error);
-
+        Onoff onoff = (Onoff) view;
+        onoff.SetError(error);
       }
 
       @Override
       public String getDescription() {
-        return "Set error for Card Number";
+        return "Set error for Onoff";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Onoff.class);
       }
     };
   }
-
   public static Matcher<View> GetFieldId(final String expectedId) {
     return new TypeSafeMatcher<View>() {
 
       @Override
       public boolean matchesSafely(View view) {
-        if (!(view instanceof CardNumber)) {
+        if (!(view instanceof Onoff)) {
           return false;
         }
 
-        String id = ((CardNumber) view).GetFieldId();
+        String id = ((Onoff) view).GetFieldId();
 
         return expectedId.equals(id);
       }
 
       @Override
       public void describeTo(Description description) {
-        description.appendText("Get Button Choice Id");
+        description.appendText("Get Onoff Id");
       }
     };
   }
 
-  public static Matcher<View> GetValue(final String expectedValue) {
+  public static Matcher<View> GetValue(final boolean expectedValue) {
     return new TypeSafeMatcher<View>() {
 
       @Override
       public boolean matchesSafely(View view) {
-        if (!(view instanceof CardNumber)) {
+        if (!(view instanceof Onoff)) {
           return false;
         }
 
-        String value = ((CardNumber) view).GetValues()[0];
+        String value = ((Onoff) view).GetValues()[0];
 
-        return expectedValue.equals(value);
+        return (expectedValue == Boolean.valueOf(value));
       }
 
       @Override
       public void describeTo(Description description) {
-        description.appendText("Get key of the currently selected option");
+        description.appendText("Get Onoff value");
       }
     };
   }
 
-  public static Matcher<View> Validate(final boolean expectedValidation) {
-    return new TypeSafeMatcher<View>() {
-
-      @Override
-      public boolean matchesSafely(View view) {
-        if (!(view instanceof CardNumber)) {
-          return false;
-        }
-
-        boolean validate = ((CardNumber) view).Validate();
-
-        return (validate == expectedValidation);
-      }
-
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Get Validation Result" + expectedValidation);
-      }
-    };
-  }
 }

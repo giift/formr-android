@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -44,6 +45,7 @@ public class PasswordTest {
 
   @Before
   public void ScrollToPassword() {
+    onView(withId(R.id.password)).perform(closeSoftKeyboard());
     onView(withId(R.id.password)).perform(scrollTo());
     onView(withId(R.id.password)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.password)));
@@ -57,5 +59,6 @@ public class PasswordTest {
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 }

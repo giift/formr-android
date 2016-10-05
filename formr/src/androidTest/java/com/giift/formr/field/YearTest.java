@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -28,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.junit.Assert.*;
 
 /**
  * @author vieony on 10/3/2016.
@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class YearTest {
 
-  Matcher textInputLayout_ = null;
+  Matcher<View> textInputLayout_ = null;
   Matcher<View> textInputEditText_ = null;
 
   @Rule
@@ -45,12 +45,16 @@ public class YearTest {
 
   @Before
   public void ScrollToYear() {
+    onView(withId(R.id.year)).perform(closeSoftKeyboard());
     onView(withId(R.id.year)).perform(scrollTo());
     onView(withId(R.id.year)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.year)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(scrollTo());
   }
 
   @Test
@@ -58,6 +62,7 @@ public class YearTest {
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText("")));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
@@ -65,5 +70,6 @@ public class YearTest {
     String value = "20145";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value.substring(0,4))));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 }

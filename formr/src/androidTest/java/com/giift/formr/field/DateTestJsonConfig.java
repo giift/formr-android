@@ -24,97 +24,118 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
- * @author vieony on 9/30/2016.
+ * @author vieony on 10/4/2016.
  */
 @RunWith(AndroidJUnit4.class)
-public class CardNumberTestJsonConfig {
+public class DateTestJsonConfig {
 
-  private static final String LOG_TAG = CardNumberTestJsonConfig.class.getName();
-
+  private static final String LOG_TAG = DateTestJsonConfig.class.getName();
   @Rule
   public ActivityTestRule<FieldsTestActivity> activityTestRule_ = new ActivityTestRule<>(
       FieldsTestActivity.class);
 
   @Before
-  public void ScrollToCardNumber() {
-    onView(withId(R.id.cardNumber)).perform(closeSoftKeyboard());
-    onView(withId(R.id.cardNumber)).perform(scrollTo());
+  public void ScrollToDate() {
+    onView(withId(R.id.date)).perform(closeSoftKeyboard());
+    onView(withId(R.id.date)).perform(scrollTo());
+    onView(withId(R.id.date)).check(matches(isDisplayed()));
   }
 
   @Test
-  public void CardNumberInitJson01() {
+  public void DateInitJson01() {
     String id = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, null, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetFieldId(id)));
+    onView(withId(R.id.date)).perform(
+        initView(GetDateJson(id, true, null, null, null, null, null, null, null)));
+    onView(withId(R.id.date)).check(matches(DateTest.GetFieldId(id)));
   }
 
   @Test
-  public void CardNumberInitJson02() {
+  public void DateInitJson02() {
     String id = Utils.GetUniqueStringId();
-    String value = "1234567812345678";
     String hint = Utils.GetUniqueStringId();
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, hint, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetValue(value)));
+    String error = Utils.GetUniqueStringId();
+    String label = Utils.GetUniqueStringId();
+    String value = "2016-08-24";
+    JSONObject callback = new JSONObject();
+    try {
+      callback.put("on_focus_lost", Utils.GetUniqueStringId());
+      callback.put("on_value_changed", Utils.GetUniqueStringId());
+    }catch (JSONException e){
+      Log.e(LOG_TAG, "Json Exception", e);
+    }
+    onView(withId(R.id.date)).perform(
+        initView(GetDateJson(id, true, value, label, hint, error, null, null, callback)));
+    onView(withId(R.id.date)).check(matches(DateTest.GetFieldId(id)));
+    onView(withId(R.id.date)).check(matches(DateTest.GetValue(value)));
   }
 
   @Test
-  public void CardNumberInitJson03() {
+  public void DateInitJson03() {
     String id = Utils.GetUniqueStringId();
-    String value = "4012888888881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, true, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.GetValue(value)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(true)));
+    String start = "2015-08-24";
+    String end = "2016-08-24";
+    onView(withId(R.id.date)).perform(
+        initView(GetDateJson(id, true, null, null, null, null, start, end, null)));
   }
 
   @Test
-  public void CardNumberInitJson04() {
+  public void DateInitJson04() {
     String id = Utils.GetUniqueStringId();
-    String value = "0000123488881881";
-    onView(withId(R.id.cardNumber)).perform(
-        initView(GetTextJson(id, false, value, null, null)));
-    onView(withId(R.id.cardNumber)).check(matches(CardNumberTest.Validate(false)));
+    String value = Utils.GetUniqueStringId();
+    onView(withId(R.id.date)).perform(
+        initView(GetDateJson(id, true, value, null, null, null, null, null, null)));
+    onView(withId(R.id.date)).check(matches(DateTest.Validate(false)));
+    onView(withId(R.id.date)).check(matches(DateTest.GetValue("")));
   }
-
 
   private ViewAction initView(final JSONObject jsonObject) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
-        CardNumber cardNumber = (CardNumber) view;
-        cardNumber.Init(jsonObject);
+        Date date = (Date) view;
+        date.Init(jsonObject);
       }
 
       @Override
       public String getDescription() {
-        return "Set position for ButtonChoice";
+        return "Initialise Date Json";
       }
 
       @Override
       public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(CardNumber.class);
+        return ViewMatchers.isAssignableFrom(Date.class);
       }
     };
   }
 
-  private JSONObject GetTextJson(
+  private JSONObject GetDateJson(
       String id,
       boolean mandatory,
       String value,
+      String label,
       String hint,
-      String error) {
+      String error,
+      String start,
+      String end,
+      JSONObject callback) {
     JSONObject object = null;
     try {
       object = new JSONObject();
       object.put("id", id);
       object.put("mandatory", mandatory);
       object.put("value", value);
+      object.put("label", label);
       JSONObject settings = new JSONObject();
+      if (!TextUtils.isEmpty(start)) {
+        settings.put("start_date", start);
+      }
+      if (!TextUtils.isEmpty(end)) {
+        settings.put("end_date", end);
+      }
       if (!TextUtils.isEmpty(hint)) {
         JSONObject hintJson = new JSONObject();
         hintJson.put("label", hint);
@@ -125,11 +146,14 @@ public class CardNumberTestJsonConfig {
         errorJson.put("label", error);
         settings.put("error", errorJson);
       }
+      if (callback != null) {
+        settings.put("callback", callback);
+      }
       object.put("settings", settings);
     } catch (JSONException e) {
       Log.e(LOG_TAG, "Json Exception", e);
-
     }
     return object;
   }
+
 }

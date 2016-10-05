@@ -19,11 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 
 /**
  * @author vieony on 10/3/2016.
@@ -36,64 +36,65 @@ public class SliderTest {
 
   @Before
   public void ScrollToSlider() {
+    onView(withId(R.id.slider)).perform(closeSoftKeyboard());
     onView(withId(R.id.slider)).perform(scrollTo());
     onView(withId(R.id.slider)).check(matches(isDisplayed()));
   }
 
   @Test
   public void SetLabel01() {
-    onView(withId(R.id.slider)).perform(setLabel(null));
+    onView(withId(R.id.slider)).perform(SetLabel(null));
   }
 
   @Test
   public void SetLabel02() {
-    onView(withId(R.id.slider)).perform(setLabel("null"));
+    onView(withId(R.id.slider)).perform(SetLabel("null"));
   }
 
   @Test
   public void SetLabel03() {
-    onView(withId(R.id.slider)).perform(setLabel("Available Options"));
+    onView(withId(R.id.slider)).perform(SetLabel("Available Options"));
   }
 
   @Test
   public void SetHint01() {
-    onView(withId(R.id.slider)).perform(setHint(null));
+    onView(withId(R.id.slider)).perform(SetHint(null));
   }
 
   @Test
   public void SetHint02() {
-    onView(withId(R.id.slider)).perform(setHint("null"));
+    onView(withId(R.id.slider)).perform(SetHint("null"));
   }
 
   @Test
   public void SetHint03() {
-    onView(withId(R.id.slider)).perform(setHint("Select Value"));
+    onView(withId(R.id.slider)).perform(SetHint("Select Value"));
   }
 
   @Test
   public void SetError01() {
-    onView(withId(R.id.slider)).perform(setError(null));
+    onView(withId(R.id.slider)).perform(SetError(null));
   }
 
   @Test
   public void SetError02() {
-    onView(withId(R.id.slider)).perform(setError("null"));
+    onView(withId(R.id.slider)).perform(SetError("null"));
   }
 
   @Test
   public void SetError03() {
-    onView(withId(R.id.slider)).perform(setError("Slider error"));
+    onView(withId(R.id.slider)).perform(SetError("Slider error"));
   }
 
   @Test
   public void SetValue01() {
-    onView(withId(R.id.slider)).perform(setMin(10.00));
-    onView(withId(R.id.slider)).perform(setMax(200.00));
-    onView(withId(R.id.slider)).perform(setValue(100.00));
-    onView(withId(R.id.slider)).check(matches(Value(100.00)));
+    onView(withId(R.id.slider)).perform(SetMin(10.00));
+    onView(withId(R.id.slider)).perform(SetMax(200.00));
+    onView(withId(R.id.slider)).perform(SetValue(100.00));
+    onView(withId(R.id.slider)).check(matches(GetValue(100.00)));
   }
 
-  private ViewAction setLabel(final String label) {
+  private ViewAction SetLabel(final String label) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -114,7 +115,7 @@ public class SliderTest {
     };
   }
 
-  private ViewAction setHint(final String hint) {
+  private ViewAction SetHint(final String hint) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -135,7 +136,7 @@ public class SliderTest {
     };
   }
 
-  private ViewAction setError(final String error) {
+  private ViewAction SetError(final String error) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -156,7 +157,7 @@ public class SliderTest {
     };
   }
 
-  private ViewAction setMin(final double min) {
+  private ViewAction SetMin(final double min) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -177,7 +178,7 @@ public class SliderTest {
     };
   }
 
-  private ViewAction setMax(final double max) {
+  private ViewAction SetMax(final double max) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -198,7 +199,7 @@ public class SliderTest {
     };
   }
 
-  private ViewAction setValue(final double value) {
+  private ViewAction SetValue(final double value) {
     return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
@@ -219,7 +220,7 @@ public class SliderTest {
     };
   }
 
-  public static Matcher<View> Value(final double expectedValue) {
+  public static Matcher<View> GetValue(final double expectedValue) {
     return new TypeSafeMatcher<View>() {
 
       @Override

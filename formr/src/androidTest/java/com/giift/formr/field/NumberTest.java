@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -44,6 +45,7 @@ public class NumberTest {
 
   @Before
   public void ScrollToNumber() {
+    onView(withId(R.id.number)).perform(closeSoftKeyboard());
     onView(withId(R.id.number)).perform(scrollTo());
     onView(withId(R.id.number)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.number)));
@@ -57,6 +59,7 @@ public class NumberTest {
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText("")));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
@@ -64,5 +67,6 @@ public class NumberTest {
     String value = "1234";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 }

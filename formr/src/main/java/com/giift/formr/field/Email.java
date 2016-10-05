@@ -220,7 +220,7 @@ public class Email extends LinearLayout implements IField,
   public void SetError(@Nullable String error) {
     TextInputLayout textInputLayout = this.GetTextInputLayout();
     if (textInputLayout != null) {
-      if (!TextUtils.isEmpty(error)) {
+      if (!TextUtils.isEmpty(error) && !error.equals("null")) {
         this.showError_ = true;
       } else {
         this.showError_ = false;
@@ -240,7 +240,7 @@ public class Email extends LinearLayout implements IField,
    */
   @Override
   public void SetHint(String hint) {
-    if (!TextUtils.isEmpty(hint)) {
+    if (!TextUtils.isEmpty(hint) && !hint.equals("null")) {
       this.hintText_.setText(hint);
       this.hintText_.setVisibility(VISIBLE);
     } else {
