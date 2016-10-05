@@ -203,7 +203,7 @@ public class CardNumber extends LinearLayout implements IField,
    */
   @Override
   public void SetError(String error) {
-    if (!TextUtils.isEmpty(error)) {
+    if (!TextUtils.isEmpty(error) && !error.equals("null")) {
       Drawable ic_error = AppCompatDrawableManager.get().getDrawable(getContext(), R.drawable.ic_error_24dp);
       ic_error = DrawableCompat.wrap(ic_error);
       DrawableCompat.setTint(ic_error.mutate(), ContextCompat.getColor(getContext(), R.color.major_red));
@@ -229,7 +229,7 @@ public class CardNumber extends LinearLayout implements IField,
    */
   @Override
   public void SetHint(String hint) {
-    if (!TextUtils.isEmpty(hint)) {
+    if (!TextUtils.isEmpty(hint) && !hint.equals("null")) {
       this.hintText_.setText(hint);
       this.hintText_.setVisibility(VISIBLE);
     }

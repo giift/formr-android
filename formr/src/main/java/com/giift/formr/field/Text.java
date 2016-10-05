@@ -227,14 +227,14 @@ public class Text extends LinearLayout implements IField,
   public void SetError(@Nullable String error) {
     TextInputLayout textInputLayout = this.GetTextInputLayout();
     if (textInputLayout != null) {
-      if (!TextUtils.isEmpty(error)) {
+      if (!TextUtils.isEmpty(error) && !error.equals("null")) {
         this.showError_ = true;
+        textInputLayout.setError(error);
       } else {
         this.showError_ = false;
         textInputLayout.setErrorEnabled(false);
       }
       this.SetEditTextLineColor();
-      textInputLayout.setError(error);
     }
   }
 
@@ -247,7 +247,7 @@ public class Text extends LinearLayout implements IField,
    */
   @Override
   public void SetHint(String hint) {
-    if (!TextUtils.isEmpty(hint)) {
+    if (!TextUtils.isEmpty(hint) && ! hint.equals("null")) {
       this.hintText_.setText(hint);
       this.hintText_.setVisibility(VISIBLE);
     }

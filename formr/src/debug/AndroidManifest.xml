@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+    <uses-sdk
+        android:minSdkVersion="18"
+        tools:overrideLibrary="android.support.test.uiautomator.v18"
+        />
+    <application>
+        <activity android:name="com.giift.formr.activity.FieldsTestActivity"
+                  android:theme="@style/Theme.AppCompat.Light.DarkActionBar"  >
+        </activity>
+    </application>
+</manifest>

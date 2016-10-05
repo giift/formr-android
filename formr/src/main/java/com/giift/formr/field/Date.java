@@ -254,7 +254,7 @@ public class Date extends LinearLayout implements IField,
     this.field_.setError(error, ic_error);
     if (this.errorText_ != null) {
       this.errorText_.setText(error);
-      if (!TextUtils.isEmpty(error)) {
+      if (!TextUtils.isEmpty(error) && !error.equals("null")) {
         this.errorText_.setVisibility(VISIBLE);
       } else {
         this.errorText_.setVisibility(GONE);
