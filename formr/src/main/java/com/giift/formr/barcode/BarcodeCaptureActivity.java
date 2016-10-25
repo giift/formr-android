@@ -91,7 +91,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
     ActivitySource.caller = this;
     super.onCreate(icicle);
-    setContentView(R.layout.barcode_capture);
+    setContentView(R.layout.formr_barcode_capture);
 
     mPreview = (CameraSourcePreview) findViewById(R.id.preview);
     mGraphicOverlay = (GraphicOverlay<BarcodeGraphic>) findViewById(R.id.graphicOverlay);
