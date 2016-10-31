@@ -45,6 +45,9 @@ configurations {
 
 repositories {
     jcenter()
+    maven {
+        url "https://raw.github.com/synergian/wagon-git/releases"
+    }
 }
 
 dependencies {
@@ -59,7 +62,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-vision:9.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'io.card:android-sdk:5.1.2'
-    deployerJars 'net.trajano.wagon:wagon-git:2.0.1'
+    deployerJars 'ar.com.synergian:wagon-git:0.2.5'
 }
 
 def getRepositoryUsername() {
@@ -69,22 +72,15 @@ def getRepositoryUsername() {
 def getRepositoryPassword() {
     return System.properties['password']
 }
-/**
- * method to upload the .aar file of giift-sdk to the maven repository
- */
-afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                configuration = configurations.deployerJars
-                repository(url: REPO_URL) {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-                }
 
-                pom.groupId = GROUP
-                pom.artifactId = POM_ARTIFACT_ID
-                pom.version = sdkVersion
-            }
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: REPO_URL) {
+            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
         }
+        pom.groupId = GROUP
+        pom.artifactId = POM_ARTIFACT_ID
+        pom.version = sdkVersion
     }
 }
