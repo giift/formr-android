@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 def sdkVersion;
 
@@ -10,7 +10,7 @@ def getVersionNameTimestamp() {
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 16
@@ -39,16 +39,77 @@ android {
     }
 }
 
-configurations {
-    deployerJars
-}
+version = sdkVersion
+def siteUrl = 'https://www.giift.com/'      // Homepage URL of the library
+def gitUrl = 'https://bitbucket.org/giiftalldev/formr-android'   // Git repository URL
+group = GROUP
 
-repositories {
-    jcenter()
-    maven {
-        url "https://raw.github.com/synergian/wagon-git/releases"
+Properties properties = new Properties()
+boolean isHasFile = false
+if (project.rootProject.findProject('local.properties') != null){
+    isHasFile = true
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+bintray {
+    user = isHasFile ?properties.getProperty("bintray.user"): System.getenv("bintray.user")
+    key = isHasFile ? properties.getProperty("bintray.apikey"): System.getenv("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "formr"
+        name = POM_ARTIFACT_ID
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["MIT"]
+        publish = true
     }
 }
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name 'Android Library to build an Android style Form from a JSON'
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'Giift'
+                        name 'Giift All Dev'
+                        email 'vieony.dacosta@giift.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+dependencies {
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -62,25 +123,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-vision:9.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'io.card:android-sdk:5.1.2'
-    deployerJars 'ar.com.synergian:wagon-git:0.2.5'
 }
 
-def getRepositoryUsername() {
-    return System.properties['username']
-}
-
-def getRepositoryPassword() {
-    return System.properties['password']
-}
-
-uploadArchives {
-    repositories.mavenDeployer {
-        configuration = configurations.deployerJars
-        repository(url: REPO_URL) {
-            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-        }
-        pom.groupId = GROUP
-        pom.artifactId = POM_ARTIFACT_ID
-        pom.version = sdkVersion
-    }
-}
