@@ -45,10 +45,15 @@ def gitUrl = 'https://bitbucket.org/giiftalldev/formr-android'   // Git reposito
 group = GROUP
 
 Properties properties = new Properties()
+boolean isHasFile = false
+if (project.rootProject.findProject('local.properties') != null){
+    isHasFile = true
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = isHasFile ?properties.getProperty("bintray.user"): System.getenv("bintray.user")
+    key = isHasFile ? properties.getProperty("bintray.apikey"): System.getenv("bintray.apikey")
     configurations = ['archives']
     pkg {
         repo = "formr"
