@@ -12,27 +12,12 @@ Dependency
 ```
  dependencies {
 
- compile 'com.giift:formr:2012.  6.09.+'
+ compile 'com.giift:formr:2016.11.+'
 
  }
 
 ```
-Configure Repository
-```
-repositories {
-    maven {
-        url 'https://api.bitbucket.org/1.0/repositories/giiftalldev/giiftsdk-maven/raw/master'
-        credentials {
-            username getRepositoryUsername()
-            password getRepositoryPassword()
-        }
-    }
-    flatDir {
-        dirs 'libs'
-    }
-}
 
-```
 The form is capable of handling orientation changes on its own and the values in the form are retained.
 
 The form can be build via code 
