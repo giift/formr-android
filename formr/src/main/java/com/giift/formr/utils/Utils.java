@@ -57,7 +57,7 @@ public class Utils {
   public static boolean IsEmailValid(String email) {
     boolean isValid = false;
     if (!TextUtils.isEmpty(email)) {
-      String expression = "^[\\w\\+\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+      String expression = "^[\\w\\+\\.!#$%&’*/=?`{|}~-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
 
       Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
       Matcher matcher = pattern.matcher(email);
