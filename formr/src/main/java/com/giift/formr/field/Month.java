@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -339,6 +340,9 @@ public class Month extends LinearLayout implements IField,
     this.errorText_.setTextColor(ContextCompat.getColor(getContext(), R.color.major_red));
     this.errorText_.setVisibility(GONE);
     this.addView(this.errorText_);
+    this.measure(0, 0);
+    ViewGroup.LayoutParams mainLayoutParams = this.getLayoutParams();
+    mainLayoutParams.height = this.getMeasuredHeight() + 10;
 
     // call made on post so that when adapter is set OnItemSelectedListener will not be called
     this.post(new Runnable() {
