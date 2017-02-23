@@ -340,9 +340,10 @@ public class Month extends LinearLayout implements IField,
     this.errorText_.setTextColor(ContextCompat.getColor(getContext(), R.color.major_red));
     this.errorText_.setVisibility(GONE);
     this.addView(this.errorText_);
-    this.measure(0, 0);
-    ViewGroup.LayoutParams mainLayoutParams = this.getLayoutParams();
-    mainLayoutParams.height = this.getMeasuredHeight() + 10;
+
+    this.spinner_.measure(0, 0);
+    ViewGroup.LayoutParams mainLayoutParams = this.spinner_.getLayoutParams();
+    mainLayoutParams.height = this.spinner_.getMeasuredHeight() + 10;
 
     // call made on post so that when adapter is set OnItemSelectedListener will not be called
     this.post(new Runnable() {
