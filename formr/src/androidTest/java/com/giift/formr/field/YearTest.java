@@ -50,10 +50,12 @@ public class YearTest {
     onView(withId(R.id.year)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.year)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(closeSoftKeyboard());
     onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
     onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
     onView(textInputEditText_).perform(scrollTo());
   }
 

@@ -51,8 +51,10 @@ public class PhoneTest {
     onView(withId(R.id.phone)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.phone)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(closeSoftKeyboard());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test

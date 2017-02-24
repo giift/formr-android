@@ -51,7 +51,9 @@ public class PostalAddressTest {
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.postal_address)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(textInputLayout_).perform(closeSoftKeyboard());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
