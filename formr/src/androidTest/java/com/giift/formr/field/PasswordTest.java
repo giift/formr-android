@@ -49,9 +49,13 @@ public class PasswordTest {
     onView(withId(R.id.password)).perform(scrollTo());
     onView(withId(R.id.password)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.password)));
+    onView(linearLayout).perform(closeSoftKeyboard());
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(closeSoftKeyboard());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(closeSoftKeyboard());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
