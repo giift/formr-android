@@ -52,8 +52,10 @@ public class TextTestJsonConfig {
     onView(withId(R.id.text)).perform(scrollTo());
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.text)));
     Matcher<View> textInputLayout = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout).perform(closeSoftKeyboard());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout));
     Matcher<View> textInputEditText = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText).perform(closeSoftKeyboard());
     onView(textInputEditText).perform(scrollTo());
   }
 

@@ -71,6 +71,7 @@ public class TextTest {
     String value = Utils.GetUniqueStringId();
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
   }
 
   @Test
