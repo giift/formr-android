@@ -52,11 +52,26 @@ public class NumberTest {
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.number)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
     onView(textInputLayout_).perform(closeSoftKeyboard());
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
     onView(frameLayoutLayout).perform(closeSoftKeyboard());
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     onView(textInputEditText_).perform(closeSoftKeyboard());
     onView(textInputEditText_).perform(scrollTo());
     onView(textInputEditText_).check(matches(isCompletelyDisplayed()));
