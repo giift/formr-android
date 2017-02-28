@@ -58,15 +58,16 @@ public class NumberTest {
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
     onView(textInputEditText_).perform(closeSoftKeyboard());
     onView(textInputEditText_).perform(scrollTo());
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    onView(textInputEditText_).check(matches(isDisplayed()));
   }
 
   @Test
   public void TypeText01() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText("")));
@@ -75,6 +76,11 @@ public class NumberTest {
 
   @Test
   public void TypeText02() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = "1234";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
