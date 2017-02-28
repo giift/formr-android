@@ -24,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -58,7 +59,7 @@ public class NumberTest {
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
     onView(textInputEditText_).perform(closeSoftKeyboard());
     onView(textInputEditText_).perform(scrollTo());
-    onView(textInputEditText_).check(matches(isDisplayed()));
+    onView(textInputEditText_).check(matches(isCompletelyDisplayed()));
   }
 
   @Test

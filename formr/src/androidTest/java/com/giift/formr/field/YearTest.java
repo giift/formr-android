@@ -53,6 +53,7 @@ public class YearTest {
     onView(textInputLayout_).perform(closeSoftKeyboard());
     onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(closeSoftKeyboard());
     onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
     onView(textInputEditText_).perform(closeSoftKeyboard());
@@ -61,6 +62,11 @@ public class YearTest {
 
   @Test
   public void TypeText01() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText("")));
@@ -69,6 +75,11 @@ public class YearTest {
 
   @Test
   public void TypeText02() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = "20145";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value.substring(0,4))));
