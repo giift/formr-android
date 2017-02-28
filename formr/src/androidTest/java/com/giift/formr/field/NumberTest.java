@@ -51,10 +51,18 @@ public class NumberTest {
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.number)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
     onView(textInputLayout_).perform(closeSoftKeyboard());
+    onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
     onView(frameLayoutLayout).perform(closeSoftKeyboard());
+    onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
     onView(textInputEditText_).perform(closeSoftKeyboard());
+    onView(textInputEditText_).perform(scrollTo());
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
