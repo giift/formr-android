@@ -68,6 +68,11 @@ public class TextTest {
 
   @Test
   public void TypeText() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = Utils.GetUniqueStringId();
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));

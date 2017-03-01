@@ -50,14 +50,23 @@ public class PostalAddressTest {
     onView(withId(R.id.postal_address)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.postal_address)));
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
-    Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
     onView(textInputLayout_).perform(closeSoftKeyboard());
+    onView(textInputLayout_).perform(scrollTo());
+    Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(closeSoftKeyboard());
+    onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
     onView(textInputEditText_).perform(closeSoftKeyboard());
+    onView(textInputEditText_).perform(scrollTo());
   }
 
   @Test
   public void TypeText01() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = Utils.GetUniqueStringId();
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));

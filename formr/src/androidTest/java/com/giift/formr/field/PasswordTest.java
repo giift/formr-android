@@ -49,13 +49,25 @@ public class PasswordTest {
     onView(withId(R.id.password)).perform(scrollTo());
     onView(withId(R.id.password)).check(matches(isDisplayed()));
     Matcher<View> linearLayout = allOf(isAssignableFrom(LinearLayout.class), withParent(withId(R.id.password)));
+    onView(linearLayout).perform(closeSoftKeyboard());
     textInputLayout_ = allOf(isAssignableFrom(TextInputLayout.class), withParent(linearLayout));
+    onView(textInputLayout_).perform(closeSoftKeyboard());
+    onView(textInputLayout_).perform(scrollTo());
     Matcher<View> frameLayoutLayout = allOf(isAssignableFrom(FrameLayout.class), withParent(textInputLayout_));
+    onView(frameLayoutLayout).perform(closeSoftKeyboard());
+    onView(frameLayoutLayout).perform(scrollTo());
     textInputEditText_ = allOf(isAssignableFrom(TextInputEditText.class), withParent(frameLayoutLayout));
+    onView(textInputEditText_).perform(closeSoftKeyboard());
+    onView(textInputEditText_).perform(scrollTo());
   }
 
   @Test
   public void TypeText01() {
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     String value = "abc";
     onView(textInputEditText_).perform(click(), typeText(value));
     onView(textInputEditText_).check(matches(withText(value)));
