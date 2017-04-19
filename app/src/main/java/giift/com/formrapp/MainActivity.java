@@ -14,8 +14,5 @@ public class MainActivity extends AppCompatActivity {
 
     Text text = (Text) findViewById(R.id.text);
     text.SetText("test");
-
   }
-
-
 }
