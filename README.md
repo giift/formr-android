@@ -1,9 +1,9 @@
-# README #
+# Formr for Android
 
 Android Library to build an Android style Form from a JSON object.
 The individual form elements can be used independently of the form as well.
 
-### How do I get set up? ###
+### How do I get started? ###
 
 ### Gradle Configuration
 * Add the following to your app build.gradle file
