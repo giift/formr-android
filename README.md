@@ -271,4 +271,4 @@ Input field for entering a zipcode
 
 ### Who do I talk to? ###
 
-* If you have any questions please contact us at [vieony.dacosta@giift.com](mailto:vieony.dacosta@giift.com) or [nicolas.lagier@giift.com](mailto:nicolas.lagier@giift.com)
+* If you have any questions please contact us at [nicolas.lagier@giift.com](mailto:nicolas.lagier@giift.com)
